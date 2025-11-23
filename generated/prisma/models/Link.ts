@@ -27,36 +27,36 @@ export type AggregateLink = {
 }
 
 export type LinkAvgAggregateOutputType = {
-  clickCount: number | null
+  totalClicks: number | null
 }
 
 export type LinkSumAggregateOutputType = {
-  clickCount: number | null
+  totalClicks: number | null
 }
 
 export type LinkMinAggregateOutputType = {
-  code: string | null
-  url: string | null
-  clickCount: number | null
-  lastClicked: Date | null
+  shortCode: string | null
+  longUrl: string | null
+  totalClicks: number | null
+  lastClickedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type LinkMaxAggregateOutputType = {
-  code: string | null
-  url: string | null
-  clickCount: number | null
-  lastClicked: Date | null
+  shortCode: string | null
+  longUrl: string | null
+  totalClicks: number | null
+  lastClickedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
 
 export type LinkCountAggregateOutputType = {
-  code: number
-  url: number
-  clickCount: number
-  lastClicked: number
+  shortCode: number
+  longUrl: number
+  totalClicks: number
+  lastClickedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -64,36 +64,36 @@ export type LinkCountAggregateOutputType = {
 
 
 export type LinkAvgAggregateInputType = {
-  clickCount?: true
+  totalClicks?: true
 }
 
 export type LinkSumAggregateInputType = {
-  clickCount?: true
+  totalClicks?: true
 }
 
 export type LinkMinAggregateInputType = {
-  code?: true
-  url?: true
-  clickCount?: true
-  lastClicked?: true
+  shortCode?: true
+  longUrl?: true
+  totalClicks?: true
+  lastClickedAt?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type LinkMaxAggregateInputType = {
-  code?: true
-  url?: true
-  clickCount?: true
-  lastClicked?: true
+  shortCode?: true
+  longUrl?: true
+  totalClicks?: true
+  lastClickedAt?: true
   createdAt?: true
   updatedAt?: true
 }
 
 export type LinkCountAggregateInputType = {
-  code?: true
-  url?: true
-  clickCount?: true
-  lastClicked?: true
+  shortCode?: true
+  longUrl?: true
+  totalClicks?: true
+  lastClickedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -186,10 +186,10 @@ export type LinkGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 export type LinkGroupByOutputType = {
-  code: string
-  url: string
-  clickCount: number
-  lastClicked: Date | null
+  shortCode: string
+  longUrl: string
+  totalClicks: number
+  lastClickedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: LinkCountAggregateOutputType | null
@@ -218,40 +218,40 @@ export type LinkWhereInput = {
   AND?: Prisma.LinkWhereInput | Prisma.LinkWhereInput[]
   OR?: Prisma.LinkWhereInput[]
   NOT?: Prisma.LinkWhereInput | Prisma.LinkWhereInput[]
-  code?: Prisma.StringFilter<"Link"> | string
-  url?: Prisma.StringFilter<"Link"> | string
-  clickCount?: Prisma.IntFilter<"Link"> | number
-  lastClicked?: Prisma.DateTimeNullableFilter<"Link"> | Date | string | null
+  shortCode?: Prisma.StringFilter<"Link"> | string
+  longUrl?: Prisma.StringFilter<"Link"> | string
+  totalClicks?: Prisma.IntFilter<"Link"> | number
+  lastClickedAt?: Prisma.DateTimeNullableFilter<"Link"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Link"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Link"> | Date | string
 }
 
 export type LinkOrderByWithRelationInput = {
-  code?: Prisma.SortOrder
-  url?: Prisma.SortOrder
-  clickCount?: Prisma.SortOrder
-  lastClicked?: Prisma.SortOrderInput | Prisma.SortOrder
+  shortCode?: Prisma.SortOrder
+  longUrl?: Prisma.SortOrder
+  totalClicks?: Prisma.SortOrder
+  lastClickedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type LinkWhereUniqueInput = Prisma.AtLeast<{
-  code?: string
+  shortCode?: string
   AND?: Prisma.LinkWhereInput | Prisma.LinkWhereInput[]
   OR?: Prisma.LinkWhereInput[]
   NOT?: Prisma.LinkWhereInput | Prisma.LinkWhereInput[]
-  url?: Prisma.StringFilter<"Link"> | string
-  clickCount?: Prisma.IntFilter<"Link"> | number
-  lastClicked?: Prisma.DateTimeNullableFilter<"Link"> | Date | string | null
+  longUrl?: Prisma.StringFilter<"Link"> | string
+  totalClicks?: Prisma.IntFilter<"Link"> | number
+  lastClickedAt?: Prisma.DateTimeNullableFilter<"Link"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Link"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Link"> | Date | string
-}, "code">
+}, "shortCode">
 
 export type LinkOrderByWithAggregationInput = {
-  code?: Prisma.SortOrder
-  url?: Prisma.SortOrder
-  clickCount?: Prisma.SortOrder
-  lastClicked?: Prisma.SortOrderInput | Prisma.SortOrder
+  shortCode?: Prisma.SortOrder
+  longUrl?: Prisma.SortOrder
+  totalClicks?: Prisma.SortOrder
+  lastClickedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.LinkCountOrderByAggregateInput
@@ -265,110 +265,110 @@ export type LinkScalarWhereWithAggregatesInput = {
   AND?: Prisma.LinkScalarWhereWithAggregatesInput | Prisma.LinkScalarWhereWithAggregatesInput[]
   OR?: Prisma.LinkScalarWhereWithAggregatesInput[]
   NOT?: Prisma.LinkScalarWhereWithAggregatesInput | Prisma.LinkScalarWhereWithAggregatesInput[]
-  code?: Prisma.StringWithAggregatesFilter<"Link"> | string
-  url?: Prisma.StringWithAggregatesFilter<"Link"> | string
-  clickCount?: Prisma.IntWithAggregatesFilter<"Link"> | number
-  lastClicked?: Prisma.DateTimeNullableWithAggregatesFilter<"Link"> | Date | string | null
+  shortCode?: Prisma.StringWithAggregatesFilter<"Link"> | string
+  longUrl?: Prisma.StringWithAggregatesFilter<"Link"> | string
+  totalClicks?: Prisma.IntWithAggregatesFilter<"Link"> | number
+  lastClickedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Link"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Link"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Link"> | Date | string
 }
 
 export type LinkCreateInput = {
-  code: string
-  url: string
-  clickCount?: number
-  lastClicked?: Date | string | null
+  shortCode: string
+  longUrl: string
+  totalClicks?: number
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type LinkUncheckedCreateInput = {
-  code: string
-  url: string
-  clickCount?: number
-  lastClicked?: Date | string | null
+  shortCode: string
+  longUrl: string
+  totalClicks?: number
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type LinkUpdateInput = {
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  clickCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastClicked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shortCode?: Prisma.StringFieldUpdateOperationsInput | string
+  longUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  totalClicks?: Prisma.IntFieldUpdateOperationsInput | number
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LinkUncheckedUpdateInput = {
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  clickCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastClicked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shortCode?: Prisma.StringFieldUpdateOperationsInput | string
+  longUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  totalClicks?: Prisma.IntFieldUpdateOperationsInput | number
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LinkCreateManyInput = {
-  code: string
-  url: string
-  clickCount?: number
-  lastClicked?: Date | string | null
+  shortCode: string
+  longUrl: string
+  totalClicks?: number
+  lastClickedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
 
 export type LinkUpdateManyMutationInput = {
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  clickCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastClicked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shortCode?: Prisma.StringFieldUpdateOperationsInput | string
+  longUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  totalClicks?: Prisma.IntFieldUpdateOperationsInput | number
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LinkUncheckedUpdateManyInput = {
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  clickCount?: Prisma.IntFieldUpdateOperationsInput | number
-  lastClicked?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  shortCode?: Prisma.StringFieldUpdateOperationsInput | string
+  longUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  totalClicks?: Prisma.IntFieldUpdateOperationsInput | number
+  lastClickedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LinkCountOrderByAggregateInput = {
-  code?: Prisma.SortOrder
-  url?: Prisma.SortOrder
-  clickCount?: Prisma.SortOrder
-  lastClicked?: Prisma.SortOrder
+  shortCode?: Prisma.SortOrder
+  longUrl?: Prisma.SortOrder
+  totalClicks?: Prisma.SortOrder
+  lastClickedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type LinkAvgOrderByAggregateInput = {
-  clickCount?: Prisma.SortOrder
+  totalClicks?: Prisma.SortOrder
 }
 
 export type LinkMaxOrderByAggregateInput = {
-  code?: Prisma.SortOrder
-  url?: Prisma.SortOrder
-  clickCount?: Prisma.SortOrder
-  lastClicked?: Prisma.SortOrder
+  shortCode?: Prisma.SortOrder
+  longUrl?: Prisma.SortOrder
+  totalClicks?: Prisma.SortOrder
+  lastClickedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type LinkMinOrderByAggregateInput = {
-  code?: Prisma.SortOrder
-  url?: Prisma.SortOrder
-  clickCount?: Prisma.SortOrder
-  lastClicked?: Prisma.SortOrder
+  shortCode?: Prisma.SortOrder
+  longUrl?: Prisma.SortOrder
+  totalClicks?: Prisma.SortOrder
+  lastClickedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type LinkSumOrderByAggregateInput = {
-  clickCount?: Prisma.SortOrder
+  totalClicks?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -394,51 +394,51 @@ export type DateTimeFieldUpdateOperationsInput = {
 
 
 export type LinkSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  code?: boolean
-  url?: boolean
-  clickCount?: boolean
-  lastClicked?: boolean
+  shortCode?: boolean
+  longUrl?: boolean
+  totalClicks?: boolean
+  lastClickedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["link"]>
 
 export type LinkSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  code?: boolean
-  url?: boolean
-  clickCount?: boolean
-  lastClicked?: boolean
+  shortCode?: boolean
+  longUrl?: boolean
+  totalClicks?: boolean
+  lastClickedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["link"]>
 
 export type LinkSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  code?: boolean
-  url?: boolean
-  clickCount?: boolean
-  lastClicked?: boolean
+  shortCode?: boolean
+  longUrl?: boolean
+  totalClicks?: boolean
+  lastClickedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["link"]>
 
 export type LinkSelectScalar = {
-  code?: boolean
-  url?: boolean
-  clickCount?: boolean
-  lastClicked?: boolean
+  shortCode?: boolean
+  longUrl?: boolean
+  totalClicks?: boolean
+  lastClickedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LinkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"code" | "url" | "clickCount" | "lastClicked" | "createdAt" | "updatedAt", ExtArgs["result"]["link"]>
+export type LinkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"shortCode" | "longUrl" | "totalClicks" | "lastClickedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["link"]>
 
 export type $LinkPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Link"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    code: string
-    url: string
-    clickCount: number
-    lastClicked: Date | null
+    shortCode: string
+    longUrl: string
+    totalClicks: number
+    lastClickedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["link"]>
@@ -524,8 +524,8 @@ export interface LinkDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    * // Get first 10 Links
    * const links = await prisma.link.findMany({ take: 10 })
    * 
-   * // Only select the `code`
-   * const linkWithCodeOnly = await prisma.link.findMany({ select: { code: true } })
+   * // Only select the `shortCode`
+   * const linkWithShortCodeOnly = await prisma.link.findMany({ select: { shortCode: true } })
    * 
    */
   findMany<T extends LinkFindManyArgs>(args?: Prisma.SelectSubset<T, LinkFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -569,9 +569,9 @@ export interface LinkDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    *   ]
    * })
    * 
-   * // Create many Links and only return the `code`
-   * const linkWithCodeOnly = await prisma.link.createManyAndReturn({
-   *   select: { code: true },
+   * // Create many Links and only return the `shortCode`
+   * const linkWithShortCodeOnly = await prisma.link.createManyAndReturn({
+   *   select: { shortCode: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -660,9 +660,9 @@ export interface LinkDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    *   ]
    * })
    * 
-   * // Update zero or more Links and only return the `code`
-   * const linkWithCodeOnly = await prisma.link.updateManyAndReturn({
-   *   select: { code: true },
+   * // Update zero or more Links and only return the `shortCode`
+   * const linkWithShortCodeOnly = await prisma.link.updateManyAndReturn({
+   *   select: { shortCode: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -864,10 +864,10 @@ export interface Prisma__LinkClient<T, Null = never, ExtArgs extends runtime.Typ
  * Fields of the Link model
  */
 export interface LinkFieldRefs {
-  readonly code: Prisma.FieldRef<"Link", 'String'>
-  readonly url: Prisma.FieldRef<"Link", 'String'>
-  readonly clickCount: Prisma.FieldRef<"Link", 'Int'>
-  readonly lastClicked: Prisma.FieldRef<"Link", 'DateTime'>
+  readonly shortCode: Prisma.FieldRef<"Link", 'String'>
+  readonly longUrl: Prisma.FieldRef<"Link", 'String'>
+  readonly totalClicks: Prisma.FieldRef<"Link", 'Int'>
+  readonly lastClickedAt: Prisma.FieldRef<"Link", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Link", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Link", 'DateTime'>
 }

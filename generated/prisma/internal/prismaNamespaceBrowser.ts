@@ -71,10 +71,10 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const LinkScalarFieldEnum = {
-  code: 'code',
-  url: 'url',
-  clickCount: 'clickCount',
-  lastClicked: 'lastClicked',
+  shortCode: 'shortCode',
+  longUrl: 'longUrl',
+  totalClicks: 'totalClicks',
+  lastClickedAt: 'lastClickedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

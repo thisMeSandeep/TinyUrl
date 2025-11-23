@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.0.0",
   "engineVersion": "0c19ccc313cf9911a90d99d2ac2eb0280c76c513",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Link {\n  code String @id @db.VarChar(12)\n\n  url String @db.Text\n\n  clickCount Int @default(0)\n\n  lastClicked DateTime? @db.Timestamptz(3)\n\n  createdAt DateTime @default(now()) @db.Timestamptz(3)\n\n  updatedAt DateTime @updatedAt @db.Timestamptz(3)\n\n  @@index([code])\n  @@index([createdAt])\n  @@index([lastClicked])\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Link {\n  shortCode String @id @db.VarChar(8)\n\n  longUrl String @db.Text\n\n  totalClicks Int @default(0)\n\n  lastClickedAt DateTime? @db.Timestamptz(3)\n\n  createdAt DateTime @default(now()) @db.Timestamptz(3)\n\n  updatedAt DateTime @updatedAt @db.Timestamptz(3)\n\n  @@index([shortCode])\n  @@index([createdAt])\n  @@index([lastClickedAt])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Link\":{\"fields\":[{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"clickCount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lastClicked\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Link\":{\"fields\":[{\"name\":\"shortCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"longUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"totalClicks\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"lastClickedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
