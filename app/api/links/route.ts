@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { redis } from "@/lib/redis";
 import { createLinkSchema, getLinksQuerySchema } from "@/lib/validations";
 import { generateShortCode } from "@/lib/utils";
+import { mapLinkToResponse, CACHE_KEYS } from "@/lib/api-helpers";
 
 // Create a new short link
 export async function POST(request: NextRequest) {
@@ -36,23 +37,13 @@ export async function POST(request: NextRequest) {
     });
 
     // Cache the link in Redis (expire after 1 hour)
-    const cacheKey = `link:${shortCode}`;
+    const cacheKey = CACHE_KEYS.link(shortCode);
     await redis.setex(cacheKey, 3600, JSON.stringify(link));
 
     // Invalidate the links list cache
-    await redis.del("links:list");
+    await redis.del(CACHE_KEYS.linksList());
 
-    const baseUrl = process.env.BASE_URL || "http://localhost:3000";
-    return NextResponse.json(
-      {
-        shortCode: link.shortCode,
-        longUrl: link.longUrl,
-        shortUrl: `${baseUrl}/${link.shortCode}`,
-        totalClicks: link.totalClicks,
-        createdAt: link.createdAt,
-      },
-      { status: 201 }
-    );
+    return NextResponse.json(mapLinkToResponse(link), { status: 201 });
   } catch (error) {
     if (error instanceof ZodError) {
       return NextResponse.json(
@@ -97,7 +88,7 @@ export async function GET(request: NextRequest) {
     const validated = getLinksQuerySchema.parse(query);
 
     // Create cache key based on query params
-    const cacheKey = `links:list:${JSON.stringify(validated)}`;
+    const cacheKey = CACHE_KEYS.linksList(JSON.stringify(validated));
     
     // Try to get from cache
     const cached = await redis.get(cacheKey);
@@ -134,16 +125,8 @@ export async function GET(request: NextRequest) {
       prisma.link.count({ where }),
     ]);
 
-    const baseUrl = process.env.BASE_URL || "http://localhost:3000";
     const result = {
-      links: links.map((link) => ({
-        shortCode: link.shortCode,
-        longUrl: link.longUrl,
-        shortUrl: `${baseUrl}/${link.shortCode}`,
-        totalClicks: link.totalClicks,
-        lastClickedAt: link.lastClickedAt,
-        createdAt: link.createdAt,
-      })),
+      links: links.map(mapLinkToResponse),
       total,
       page: validated.page,
       limit: validated.limit,

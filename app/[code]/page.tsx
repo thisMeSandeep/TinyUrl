@@ -1,6 +1,7 @@
 import { redirect, notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { redis } from "@/lib/redis";
+import { CACHE_KEYS } from "@/lib/api-helpers";
 
 interface PageProps {
   params: Promise<{ code: string }>;
@@ -10,7 +11,7 @@ export default async function RedirectPage({ params }: PageProps) {
   const { code } = await params;
 
   // Check cache first
-  const cacheKey = `link:${code}`;
+  const cacheKey = CACHE_KEYS.link(code);
   const cached = await redis.get(cacheKey);
   
   let link;
@@ -48,7 +49,7 @@ export default async function RedirectPage({ params }: PageProps) {
   // Update cache with new click count
   await redis.setex(cacheKey, 3600, JSON.stringify(updatedLink));
   // Invalidate list cache
-  await redis.del("links:list");
+  await redis.del(CACHE_KEYS.linksList());
 
   // Perform 302 redirect
   redirect(link.longUrl);

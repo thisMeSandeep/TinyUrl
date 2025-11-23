@@ -6,8 +6,10 @@ const shortcodeRegex = /^[A-Za-z0-9]{6,8}$/;
 export const createLinkSchema = z.object({
   longUrl: z.string().url("Invalid URL format"),
   shortCode: z
-    .string()
-    .regex(shortcodeRegex, "Shortcode must be 6-8 alphanumeric characters")
+    .union([
+      z.string().regex(shortcodeRegex, "Shortcode must be 6-8 alphanumeric characters"),
+      z.literal(""),
+    ])
     .optional(),
 });
 
