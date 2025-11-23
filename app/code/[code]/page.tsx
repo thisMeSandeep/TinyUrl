@@ -1,8 +1,7 @@
 "use client";
 
 import { useLinkStats } from "@/hooks/useLinks";
-import { Button } from "@/components/ui/Button";
-import { ArrowLeft, ExternalLink, Copy, Calendar, MousePointerClick } from "lucide-react";
+import { ArrowLeft, ExternalLink, Copy, Calendar, MousePointerClick, Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
@@ -26,9 +25,9 @@ export default function StatsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <Loader2 className="h-8 w-8 animate-spin text-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Loading stats...</p>
         </div>
       </div>
@@ -37,63 +36,68 @@ export default function StatsPage() {
 
   if (error || !link) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Link Not Found</h1>
-          <p className="text-gray-600 mb-6">The link you're looking for doesn't exist.</p>
-          <Button onClick={() => router.push("/")}>Go to Dashboard</Button>
+          <h1 className="text-2xl font-bold text-black mb-4">Link Not Found</h1>
+          <p className="text-gray-600 mb-6">The link you&apos;re looking for doesn&apos;t exist.</p>
+          <button
+            onClick={() => router.push("/")}
+            className="px-4 py-2 bg-black text-white rounded-lg font-medium hover:bg-gray-900 transition-colors"
+          >
+            Go to Dashboard
+          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-8">
           <Link href="/">
-            <Button variant="ghost" size="sm" className="mb-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+            <button className="flex items-center gap-2 text-black hover:text-gray-600 transition-colors mb-6 font-medium">
+              <ArrowLeft className="h-4 w-4" />
               Back to Dashboard
-            </Button>
+            </button>
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900">Link Statistics</h1>
+          <h1 className="text-4xl font-bold text-black">Link Statistics</h1>
         </div>
 
         {/* Stats Card */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="border border-gray-300 rounded-xl p-6 mb-6 bg-gray-50">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Short Code */}
             <div>
-              <label className="text-sm font-medium text-gray-500 mb-1 block">
+              <label className="text-sm font-medium text-gray-600 mb-2 block">
                 Short Code
               </label>
               <div className="flex items-center gap-2">
-                <span className="text-lg font-semibold text-blue-600">
+                <span className="text-lg font-semibold text-black">
                   {link.shortCode}
                 </span>
                 <button
                   onClick={() => handleCopy(link.shortUrl)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  className="text-gray-400 hover:text-black transition-colors"
                   title="Copy short URL"
                 >
                   <Copy className="h-4 w-4" />
                 </button>
                 {copied && (
-                  <span className="text-xs text-green-600">Copied!</span>
+                  <span className="text-xs text-green-600 font-medium">Copied!</span>
                 )}
               </div>
             </div>
 
             {/* Total Clicks */}
             <div>
-              <label className="text-sm font-medium text-gray-500 mb-1 block">
+              <label className="text-sm font-medium text-gray-600 mb-2 block">
                 Total Clicks
               </label>
               <div className="flex items-center gap-2">
-                <MousePointerClick className="h-5 w-5 text-blue-600" />
-                <span className="text-lg font-semibold text-gray-900">
+                <MousePointerClick className="h-5 w-5 text-gray-600" />
+                <span className="text-lg font-semibold text-black">
                   {link.totalClicks}
                 </span>
               </div>
@@ -101,7 +105,7 @@ export default function StatsPage() {
 
             {/* Long URL */}
             <div className="md:col-span-2">
-              <label className="text-sm font-medium text-gray-500 mb-1 block">
+              <label className="text-sm font-medium text-gray-600 mb-2 block">
                 Target URL
               </label>
               <div className="flex items-center gap-2">
@@ -112,7 +116,7 @@ export default function StatsPage() {
                   href={link.longUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 flex-shrink-0"
+                  className="text-gray-400 hover:text-black transition-colors shrink-0"
                 >
                   <ExternalLink className="h-4 w-4" />
                 </a>
@@ -121,7 +125,7 @@ export default function StatsPage() {
 
             {/* Last Clicked */}
             <div>
-              <label className="text-sm font-medium text-gray-500 mb-1 block">
+              <label className="text-sm font-medium text-gray-600 mb-2 block">
                 Last Clicked
               </label>
               <div className="flex items-center gap-2">
@@ -134,7 +138,7 @@ export default function StatsPage() {
 
             {/* Created At */}
             <div>
-              <label className="text-sm font-medium text-gray-500 mb-1 block">
+              <label className="text-sm font-medium text-gray-600 mb-2 block">
                 Created At
               </label>
               <div className="flex items-center gap-2">
@@ -148,22 +152,21 @@ export default function StatsPage() {
         </div>
 
         {/* Short URL Card */}
-        <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
-          <label className="text-sm font-medium text-blue-900 mb-2 block">
+        <div className="border border-gray-300 rounded-xl p-6 bg-gray-50">
+          <label className="text-sm font-medium text-black mb-3 block">
             Short URL
           </label>
-          <div className="flex items-center gap-2">
-            <code className="flex-1 bg-white px-4 py-2 rounded border border-blue-200 text-blue-900">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <code className="flex-1 bg-white px-4 py-2 rounded-lg border border-gray-300 text-black font-mono text-sm break-all">
               {link.shortUrl}
             </code>
-            <Button
-              variant="primary"
-              size="sm"
+            <button
               onClick={() => handleCopy(link.shortUrl)}
+              className="px-4 py-2 bg-black text-white rounded-lg font-medium hover:bg-gray-900 transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
             >
-              <Copy className="h-4 w-4 mr-2" />
+              <Copy className="h-4 w-4" />
               Copy
-            </Button>
+            </button>
           </div>
         </div>
       </div>

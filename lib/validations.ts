@@ -19,6 +19,17 @@ export const getLinksQuerySchema = z.object({
   sortOrder: z.enum(["asc", "desc"]).optional(),
   page: z.string().optional().transform((val) => (val ? parseInt(val, 10) : 1)),
   limit: z.string().optional().transform((val) => (val ? parseInt(val, 10) : 100)),
+  minClicks: z.string().optional().transform((val) => (val ? parseInt(val, 10) : undefined)),
+  maxClicks: z.string().optional().transform((val) => (val ? parseInt(val, 10) : undefined)),
+  createdAfter: z.string().optional(),
+  createdBefore: z.string().optional(),
+  lastClickedAfter: z.string().optional(),
+  lastClickedBefore: z.string().optional(),
+  hasClicks: z.string().optional().transform((val) => {
+    if (val === "true") return true;
+    if (val === "false") return false;
+    return undefined;
+  }),
 });
 
 export type CreateLinkInput = z.infer<typeof createLinkSchema>;

@@ -23,7 +23,7 @@ export function SearchBar({ onSearch, placeholder = "Search by code or URL..." }
 
   return (
     <div className="relative">
-      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-black h-5 w-5" />
       <Input
         type="text"
         placeholder={placeholder}

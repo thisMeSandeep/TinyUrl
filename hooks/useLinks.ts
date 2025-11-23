@@ -17,12 +17,23 @@ export interface LinksResponse {
   totalPages: number;
 }
 
+export interface FilterValues {
+  minClicks?: number;
+  maxClicks?: number;
+  createdAfter?: string;
+  createdBefore?: string;
+  lastClickedAfter?: string;
+  lastClickedBefore?: string;
+  hasClicks?: boolean;
+}
+
 interface GetLinksParams {
   search?: string;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
   page?: number;
   limit?: number;
+  filters?: FilterValues;
 }
 
 // GET all links
@@ -36,6 +47,18 @@ export function useLinks(params?: GetLinksParams) {
       if (params?.sortOrder) searchParams.set("sortOrder", params.sortOrder);
       if (params?.page) searchParams.set("page", params.page.toString());
       if (params?.limit) searchParams.set("limit", params.limit.toString());
+
+      // Add filter params
+      if (params?.filters) {
+        const filters = params.filters;
+        if (filters.minClicks !== undefined) searchParams.set("minClicks", filters.minClicks.toString());
+        if (filters.maxClicks !== undefined) searchParams.set("maxClicks", filters.maxClicks.toString());
+        if (filters.createdAfter) searchParams.set("createdAfter", filters.createdAfter);
+        if (filters.createdBefore) searchParams.set("createdBefore", filters.createdBefore);
+        if (filters.lastClickedAfter) searchParams.set("lastClickedAfter", filters.lastClickedAfter);
+        if (filters.lastClickedBefore) searchParams.set("lastClickedBefore", filters.lastClickedBefore);
+        if (filters.hasClicks !== undefined) searchParams.set("hasClicks", filters.hasClicks.toString());
+      }
 
       const res = await fetch(`/api/links?${searchParams.toString()}`);
       if (!res.ok) throw new Error("Failed to fetch links");

@@ -1,7 +1,7 @@
-import { Link } from "@/hooks/useLinks";
-import { Button } from "./ui/Button";
+import type { Link } from "@/hooks/useLinks";
+import NextLink from "next/link";
 import { Copy, Trash2, ExternalLink, ArrowUpDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatDate, truncateUrl, copyToClipboard } from "@/lib/formatters";
 
 interface LinkTableProps {
@@ -10,7 +10,6 @@ interface LinkTableProps {
   isLoading?: boolean;
   onSort?: (field: string) => void;
   sortBy?: string;
-  sortOrder?: "asc" | "desc";
 }
 
 export function LinkTable({
@@ -19,7 +18,6 @@ export function LinkTable({
   isLoading = false,
   onSort,
   sortBy,
-  sortOrder,
 }: LinkTableProps) {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
@@ -27,14 +25,21 @@ export function LinkTable({
     const success = await copyToClipboard(text);
     if (success) {
       setCopiedCode(code);
-      setTimeout(() => setCopiedCode(null), 2000);
     }
   };
 
+  // Clear copied state after 2 seconds
+  useEffect(() => {
+    if (copiedCode) {
+      const timer = setTimeout(() => setCopiedCode(null), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [copiedCode]);
+
   if (links.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500">
-        <p className="text-lg">No links found</p>
+      <div className="text-center py-12 text-gray-600">
+        <p className="text-base font-medium">No links found</p>
         <p className="text-sm mt-2">Create your first short link above</p>
       </div>
     );
@@ -42,11 +47,11 @@ export function LinkTable({
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
+      <table className="min-w-full divide-y divide-gray-300">
         <thead className="bg-gray-50">
           <tr>
             <th
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+              className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
               onClick={() => onSort?.("shortCode")}
             >
               <div className="flex items-center gap-2">
@@ -56,11 +61,11 @@ export function LinkTable({
                 )}
               </div>
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
               Target URL
             </th>
             <th
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+              className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
               onClick={() => onSort?.("totalClicks")}
             >
               <div className="flex items-center gap-2">
@@ -71,7 +76,7 @@ export function LinkTable({
               </div>
             </th>
             <th
-              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+              className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
               onClick={() => onSort?.("lastClickedAt")}
             >
               <div className="flex items-center gap-2">
@@ -81,28 +86,28 @@ export function LinkTable({
                 )}
               </div>
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
               Actions
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white divide-y divide-gray-300">
           {links.map((link) => (
-            <tr key={link.shortCode} className="hover:bg-gray-50">
+            <tr key={link.shortCode} className="hover:bg-gray-50 transition-colors">
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-blue-600">
+                  <span className="text-sm font-semibold text-black">
                     {link.shortCode}
                   </span>
                   <button
                     onClick={() => handleCopy(link.shortUrl, link.shortCode)}
-                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                    className="text-gray-400 hover:text-black transition-colors"
                     title="Copy short URL"
                   >
                     <Copy className="h-4 w-4" />
                   </button>
                   {copiedCode === link.shortCode && (
-                    <span className="text-xs text-green-600">Copied!</span>
+                    <span className="text-xs text-green-600 font-medium">Copied!</span>
                   )}
                 </div>
               </td>
@@ -115,35 +120,35 @@ export function LinkTable({
                     href={link.longUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-gray-400 hover:text-black transition-colors"
                     title={link.longUrl}
                   >
                     <ExternalLink className="h-4 w-4" />
                   </a>
                 </div>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
                 {link.totalClicks}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                 {formatDate(link.lastClickedAt)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm">
-                <div className="flex items-center gap-2">
-                  <a
+                <div className="flex items-center gap-3">
+                  <NextLink
                     href={`/code/${link.shortCode}`}
-                    className="text-blue-600 hover:text-blue-800 text-sm"
+                    className="text-black hover:text-gray-600 font-medium text-sm transition-colors"
                   >
                     View Stats
-                  </a>
-                  <Button
-                    variant="danger"
-                    size="sm"
+                  </NextLink>
+                  <button
                     onClick={() => onDelete(link.shortCode)}
                     disabled={isLoading}
+                    className="p-2 text-gray-400 hover:text-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    title="Delete link"
                   >
                     <Trash2 className="h-4 w-4" />
-                  </Button>
+                  </button>
                 </div>
               </td>
             </tr>
@@ -153,4 +158,3 @@ export function LinkTable({
     </div>
   );
 }
-

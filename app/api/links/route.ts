@@ -83,6 +83,13 @@ export async function GET(request: NextRequest) {
       sortOrder: searchParams.get("sortOrder") || undefined,
       page: searchParams.get("page") || undefined,
       limit: searchParams.get("limit") || undefined,
+      minClicks: searchParams.get("minClicks") || undefined,
+      maxClicks: searchParams.get("maxClicks") || undefined,
+      createdAfter: searchParams.get("createdAfter") || undefined,
+      createdBefore: searchParams.get("createdBefore") || undefined,
+      lastClickedAfter: searchParams.get("lastClickedAfter") || undefined,
+      lastClickedBefore: searchParams.get("lastClickedBefore") || undefined,
+      hasClicks: searchParams.get("hasClicks") || undefined,
     };
 
     const validated = getLinksQuerySchema.parse(query);
@@ -96,15 +103,63 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(JSON.parse(cached));
     }
 
-    // Build where clause for search
-    const where = validated.search
-      ? {
-          OR: [
-            { shortCode: { contains: validated.search, mode: "insensitive" as const } },
-            { longUrl: { contains: validated.search, mode: "insensitive" as const } },
-          ],
+    // Build where clause with all filters
+    const where: any = {};
+
+    // Search filter
+    if (validated.search) {
+      where.OR = [
+        { shortCode: { contains: validated.search, mode: "insensitive" as const } },
+        { longUrl: { contains: validated.search, mode: "insensitive" as const } },
+      ];
+    }
+
+    // Click count filters
+    const hasClickFilters = validated.minClicks !== undefined || 
+                           validated.maxClicks !== undefined || 
+                           validated.hasClicks !== undefined;
+    
+    if (hasClickFilters) {
+      where.totalClicks = where.totalClicks || {};
+      
+      if (validated.hasClicks !== undefined) {
+        if (validated.hasClicks) {
+          where.totalClicks.gt = 0;
+        } else {
+          where.totalClicks.equals = 0;
         }
-      : {};
+      } else {
+        // Only apply min/max if hasClicks is not set
+        if (validated.minClicks !== undefined) {
+          where.totalClicks.gte = validated.minClicks;
+        }
+        if (validated.maxClicks !== undefined) {
+          where.totalClicks.lte = validated.maxClicks;
+        }
+      }
+    }
+
+    // Created date filters
+    if (validated.createdAfter || validated.createdBefore) {
+      where.createdAt = {};
+      if (validated.createdAfter) {
+        where.createdAt.gte = new Date(validated.createdAfter);
+      }
+      if (validated.createdBefore) {
+        where.createdAt.lte = new Date(validated.createdBefore);
+      }
+    }
+
+    // Last clicked date filters
+    if (validated.lastClickedAfter || validated.lastClickedBefore) {
+      where.lastClickedAt = {};
+      if (validated.lastClickedAfter) {
+        where.lastClickedAt.gte = new Date(validated.lastClickedAfter);
+      }
+      if (validated.lastClickedBefore) {
+        where.lastClickedAt.lte = new Date(validated.lastClickedBefore);
+      }
+    }
 
     // Build orderBy clause
     const orderBy: Record<string, "asc" | "desc"> = {};
