@@ -1,0 +1,263 @@
+**Build a complete TinyLink web application (a mini bit.ly clone) following this full specification. Implement everything exactly as described.**
+
+---
+
+## **📌 Project Overview**
+
+Create a production-ready URL shortener web app with:
+
+* Creating short links (with optional custom codes)
+* Redirecting with click counting
+* Deleting links
+* Dashboard UI
+* Stats page
+* Health check
+* Public hosting + GitHub repo
+
+## **📌 Tech Requirements**
+
+* Framework: **Next.js** (preferred) **OR** Node.js + Express
+* DB: **Postgres** (Neon recommended)
+* Styling: **Plain CSS or Tailwind**
+* Hosting: **Vercel, Render, or Railway**
+* Must provide:
+
+  * Public deployed URL
+  * GitHub repo URL
+  * Video walkthrough of solution + code
+  * Link to LLM transcript (if used)
+
+---
+
+## **📌 Core Functional Features**
+
+### **1. Create Short Links**
+
+* Input: long URL + optional custom shortcode.
+* Output redirect URL:
+  `https://your-site.com/<shortcode>`
+* URL must be validated before saving.
+* Custom codes must be **globally unique**.
+* If a code already exists → return **409 error**.
+
+### **2. Redirect**
+
+* Visiting `/<code>` performs an **HTTP 302 redirect** to the long URL.
+* Each redirect must:
+
+  * Increment **total click count**
+  * Update **last clicked timestamp**
+
+### **3. Delete a Link**
+
+* Users can delete any link.
+* After deleting:
+
+  * Visiting `/<code>` must return **404**
+  * No redirect should occur.
+
+---
+
+## **📌 Pages & Routes**
+
+| Purpose                       | Route         | Auth   |
+| ----------------------------- | ------------- | ------ |
+| Dashboard (list, add, delete) | `/`           | Public |
+| Stats page for a single code  | `/code/:code` | Public |
+| Redirect                      | `/:code`      | Public |
+| Health check                  | `/healthz`    | Public |
+
+---
+
+## **📌 Dashboard Requirements (/**)
+
+The Dashboard must display a full table:
+
+* Short code
+* Target URL
+* Total clicks
+* Last clicked time
+* Actions: Add link, Delete link
+
+Extra:
+
+* Optional: Search/filter by shortcode or URL.
+
+---
+
+## **📌 Stats Page (/code/:code)**
+
+Display:
+
+* Shortcode
+* Target URL
+* Total clicks
+* Last clicked timestamp
+* Any additional stats you want to show
+
+---
+
+## **📌 Health Check (/healthz)**
+
+Return HTTP 200.
+
+Example JSON:
+
+```json
+{
+  "ok": true,
+  "version": "1.0"
+}
+```
+
+---
+
+## **📌 API Specification**
+
+Follow these EXACT endpoint names + behavior:
+
+### **POST /api/links**
+
+* Create a new short link
+* Return **409** if shortcode already exists
+* Validate URL
+
+### **GET /api/links**
+
+* Return a list of all short links
+
+### **GET /api/links/:code**
+
+* Return stats for a specific code
+
+### **DELETE /api/links/:code**
+
+* Delete the link
+* After deletion, redirect should stop (404)
+
+### **Shortcode Rules**
+
+* Codes must match regex:
+  **`[A-Za-z0-9]{6,8}`**
+
+---
+
+## **📌 Data to Store**
+
+For each link:
+
+* shortCode
+* longUrl
+* totalClicks
+* lastClickedAt (Date)
+* createdAt (Date)
+
+---
+
+## **📌 UI & UX Expectations**
+
+Deliver a polished, thoughtful UI:
+
+### **General**
+
+* Clear layout & spacing
+* Good typography
+* Responsive design
+* No unfinished/raw HTML
+
+### **Form UX**
+
+* Inline validation
+* Disabled submit while loading
+* Friendly error messages
+* Success confirmation
+* Custom code optional, auto-generated if empty
+
+### **Tables**
+
+* Sorting & filtering (optional but preferred)
+* Truncate long URLs with ellipsis
+* Copy button for short URL
+* Clean, consistent buttons
+
+### **States**
+
+* Empty state
+* Loading state
+* Success state
+* Error state
+
+### **Consistency**
+
+* Shared header/footer
+* Consistent button styling, spacing, colors
+
+---
+
+## **📌 Hosting Requirements**
+
+Deploy with:
+
+* **Next.js on Vercel + Neon**
+* OR Express on Render/Railway + Postgres
+
+Provide:
+
+1. Public URL
+2. GitHub repo
+3. Video walkthrough
+4. ChatGPT/LLM transcript link
+
+---
+
+## **📌 .env.example**
+
+Include all environment variables needed:
+
+* `DATABASE_URL`
+* `BASE_URL`
+* Anything else required
+
+---
+
+## **📌 Autograding Requirements (DO NOT VIOLATE)**
+
+The automated tests expect:
+
+1. **GET /healthz** returns 200.
+2. Creating a link works;
+   Duplicate code → **409**.
+3. Redirect increments click count correctly.
+4. Deleting a link makes `/:code` return **404**.
+5. UI meets layout & UX expectations.
+
+---
+
+## **📌 Code Expectations**
+
+* Clean commit history
+* Modular structure
+* Industry-standard patterns
+* Fully working deployed version
+* No missing features
+
+---
+
+## **📌 Your Task in Cursor**
+
+Using the full spec above, implement:
+
+* Database schema
+* API routes
+* Frontend pages
+* Redirect handling
+* UI interactions + states
+* Validation + error-handling
+* Deployment config
+* Polished UI
+
+Every requirement must be followed exactly.
+
+---
+
+If you'd like, I can also **package this into a Markdown file**, or **generate a folder structure**, or create a **Cursor agent plan**.
