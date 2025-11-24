@@ -41,7 +41,7 @@ export function CreateLinkForm({ onSuccess }: CreateLinkFormProps) {
       reset();
       setTimeout(() => setShowSuccess(false), 3000);
       onSuccess?.();
-    } catch (error) {
+    } catch {
       // Error is handled by react-query
     }
   };
@@ -100,7 +100,7 @@ export function CreateLinkForm({ onSuccess }: CreateLinkFormProps) {
       <button
         type="submit"
         disabled={createLink.isPending}
-        className="w-full px-4 py-2 bg-black text-white rounded-lg font-medium hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+        className="px-6 py-2 bg-black text-white rounded-lg font-medium hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
       >
         {createLink.isPending ? (
           <>

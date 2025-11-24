@@ -1,6 +1,6 @@
 import type { Link } from "@/hooks/useLinks";
 import NextLink from "next/link";
-import { Copy, Trash2, ExternalLink, ArrowUpDown } from "lucide-react";
+import { Copy, Trash2, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 import { formatDate, truncateUrl, copyToClipboard } from "@/lib/formatters";
 
@@ -8,16 +8,12 @@ interface LinkTableProps {
   links: Link[];
   onDelete: (code: string) => void;
   isLoading?: boolean;
-  onSort?: (field: string) => void;
-  sortBy?: string;
 }
 
 export function LinkTable({
   links,
   onDelete,
   isLoading = false,
-  onSort,
-  sortBy,
 }: LinkTableProps) {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
@@ -50,41 +46,17 @@ export function LinkTable({
       <table className="min-w-full divide-y divide-gray-300">
         <thead className="bg-gray-50">
           <tr>
-            <th
-              className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
-              onClick={() => onSort?.("shortCode")}
-            >
-              <div className="flex items-center gap-2">
-                Short Code
-                {sortBy === "shortCode" && (
-                  <ArrowUpDown className="h-4 w-4" />
-                )}
-              </div>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
+              Short Code
             </th>
             <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
               Target URL
             </th>
-            <th
-              className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
-              onClick={() => onSort?.("totalClicks")}
-            >
-              <div className="flex items-center gap-2">
-                Total Clicks
-                {sortBy === "totalClicks" && (
-                  <ArrowUpDown className="h-4 w-4" />
-                )}
-              </div>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
+              Total Clicks
             </th>
-            <th
-              className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
-              onClick={() => onSort?.("lastClickedAt")}
-            >
-              <div className="flex items-center gap-2">
-                Last Clicked
-                {sortBy === "lastClickedAt" && (
-                  <ArrowUpDown className="h-4 w-4" />
-                )}
-              </div>
+            <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
+              Last Clicked
             </th>
             <th className="px-6 py-3 text-left text-xs font-semibold text-black uppercase tracking-wider">
               Actions

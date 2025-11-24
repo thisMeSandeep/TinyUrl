@@ -58,7 +58,7 @@ export async function DELETE(
   try {
     const { code } = await params;
 
-    // Delete from database (Prisma will throw if not found)
+    // Delete from database 
     await prisma.link.delete({
       where: { shortCode: code },
     });

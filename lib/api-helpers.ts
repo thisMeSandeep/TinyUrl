@@ -1,7 +1,3 @@
-/**
- * API helper utilities
- */
-
 export const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 
 export interface LinkResponse {
@@ -13,10 +9,8 @@ export interface LinkResponse {
   createdAt: Date | string;
 }
 
-/**
- * Maps a database link to API response format
- */
-export function mapLinkToResponse(link: {
+//  Maps a database link to API response format
+ export function mapLinkToResponse(link: {
   shortCode: string;
   longUrl: string;
   totalClicks: number;
@@ -33,9 +27,7 @@ export function mapLinkToResponse(link: {
   };
 }
 
-/**
- * Cache key patterns
- */
+// Cache keys for redis cache
 export const CACHE_KEYS = {
   link: (code: string) => `link:${code}`,
   linksList: (params?: string) => `links:list${params ? `:${params}` : ""}`,

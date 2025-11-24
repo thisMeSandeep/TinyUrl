@@ -1,46 +1,28 @@
 "use client";
 
 import { useState } from "react";
-import { useLinks, useDeleteLink, type FilterValues } from "@/hooks/useLinks";
+import { useLinks, useDeleteLink } from "@/hooks/useLinks";
 import { CreateLinkForm } from "@/components/CreateLinkForm";
 import { LinkTable } from "@/components/LinkTable";
 import { SearchBar } from "@/components/SearchBar";
-import { Filters } from "@/components/Filters";
 import { Loader2, Link2 } from "lucide-react";
 
 export default function Dashboard() {
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState<string>("createdAt");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const [filters, setFilters] = useState<FilterValues>({});
+  const [sortBy, setSortBy] = useState<"createdAt" | "totalClicks">("createdAt");
 
   const { data, isLoading, error } = useLinks({
     search: search || undefined,
-    sortBy: sortBy || undefined,
-    sortOrder,
+    sortBy,
     page: 1,
     limit: 100,
-    filters: Object.keys(filters).length > 0 ? filters : undefined,
   });
 
   const deleteLink = useDeleteLink();
 
-  const handleSort = (field: string) => {
-    if (sortBy === field) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(field);
-      setSortOrder("desc");
-    }
-  };
-
   const handleDelete = async (code: string) => {
     if (confirm(`Are you sure you want to delete link "${code}"?`)) {
-      try {
-        await deleteLink.mutateAsync(code);
-      } catch {
-        // Error handled by react-query
-      }
+      await deleteLink.mutateAsync(code);
     }
   };
 
@@ -71,11 +53,28 @@ export default function Dashboard() {
           <CreateLinkForm />
         </div>
 
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
-          <SearchBar onSearch={setSearch} />
-          <Filters onFilterChange={setFilters} />
+
+        {/* Search and Sort */}
+        <div className="mb-8 flex flex-col sm:flex-row gap-4">
+          <div className="flex-1 w-full">
+            <SearchBar onSearch={setSearch} />
+          </div>
+
+          <div className="sm:w-48 w-full flex items-center">
+            <select
+              value={sortBy}
+              onChange={(e) =>
+                setSortBy(e.target.value as "createdAt" | "totalClicks")
+              }
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-0 text-sm"
+            >
+              <option value="createdAt">Newest First</option>
+              <option value="totalClicks">Most Clicks</option>
+            </select>
+          </div>
         </div>
+
+
 
         {/* Links Table */}
         <div className="border border-gray-300 rounded-xl overflow-hidden">
@@ -99,8 +98,6 @@ export default function Dashboard() {
                 links={data?.links || []}
                 onDelete={handleDelete}
                 isLoading={deleteLink.isPending}
-                onSort={handleSort}
-                sortBy={sortBy}
               />
             )}
           </div>

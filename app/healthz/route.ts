@@ -5,6 +5,7 @@ export async function GET() {
     {
       ok: true,
       version: "1.0",
+      system: "ok",
     },
     { status: 200 }
   );

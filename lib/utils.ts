@@ -1,7 +1,4 @@
-/**
- * Generates a random shortcode of length 6-8 characters
- * Uses alphanumeric characters (A-Z, a-z, 0-9)
- */
+// generate short code function
 export function generateShortCode(length: number = 6): string {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
@@ -11,9 +8,8 @@ export function generateShortCode(length: number = 6): string {
   return result;
 }
 
-/**
- * Validates if a URL is properly formatted
- */
+//Validates if a URL is properly formatted
+
 export function isValidUrl(url: string): boolean {
   try {
     new URL(url);
